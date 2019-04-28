@@ -2,11 +2,11 @@
 <div class="container">
   <div class="master">
     <span for="name"><b>IDR Amount</b></span>
-    <input v-model="valueAmount" type="text" placeholder="Enter Name" name="name" required>
-     <button type="submit" class="registerbtn" @click="onShowFraction()">Show Fraction</button>
+    <input v-model="valueAmount" type="text" placeholder="Enter Amount" name="name" required>
+     <button type="submit" class="registerbtn" @click="onShowFraction()">Enter Fraction</button>
   </div>
   <br /> <br />
-  <div class="mainres">
+  <div class="mainres" v-show='showRes'>
     <div class="divloop bghead">
       <div class="div10">No</div>
       <div class="div30">Amount</div>
@@ -22,7 +22,7 @@
           <span><b>Rp {{formatNumber(val[0])}}</b> </span> 
         </div>
       </div>
-      <div class="div5 fright cursor" @click="deletex(index)">&times;</div><br>
+      <div class="div5 fright cursor" @click="deletex(index + 1)">&times;</div><br>
     </div>
   </div>
 </div>
@@ -39,18 +39,21 @@ export default {
       resfilterone: '',
       id: '',
       GlobalFilter: '',
-      invalidAmount: []
+      invalidAmount: [],
+      showRes: false
     }
   },
   methods: {
     onShowFraction () {
       if (this.valueAmount == '') {
         alert('Plese fill he Amount First!')
+      } else if (isNaN(this.valueAmount)) {
+        alert('Plese insert Number')
       } else if (this.valueAmount <= 49) {
+        this.showRes = true
         let obj = {
           currentValue: this.valueAmount,
-          id: this.listAmount.length + 1,
-          invalidAmount: this.invalidAmount
+          id: this.listAmount.length + 1
         }
         obj.calculateValue = [{
           '0': this.valueAmount + ' (No Available Fraction)'
@@ -58,6 +61,7 @@ export default {
         this.listAmount.push(obj)
         console.log('enter', this.listAmount)
       } else {
+        this.showRes = true
         this.filterone(this.fractionList, this.valueAmount)
         let filterVar = this.filterone(this.fractionList, this.valueAmount)
         this.GlobalFilter = filterVar
@@ -122,12 +126,19 @@ export default {
     filterone (arr,val) {
       return arr.filter(x => parseInt(val) >= parseInt(x))
     },
-    deletex (e) { 
+    deletex (e) {
+      console.log('e', e)
       this.listAmount.forEach(x => {
-        if (x.id == e) {
+        if (x.id == e) { 
           this.listAmount.splice(e, 1)
-        } 
+          console.log('enter')
+        }
       })
+      // if (this.listAmount.length === 1) {
+      //   console.log('enter')
+      //   this.listAmount.splice(e)
+      //   this.showRes = false
+      // }
     },
     formatNumber (num) {
       return parseInt(num).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
