@@ -8,18 +8,18 @@
   <br /> <br />
   <div class="mainres" v-show='showRes'>
     <div class="divloop bghead">
-      <div class="div10">No</div>
       <div class="div30">Amount</div>
-      <div class="div60">Fractions</div>
+      <div class="div70">Fractions</div>
       <div class="div5"></div>
     </div>
-    <div v-for='(list, index) in listAmount' :key="index" class="divloop">
-      <div class="div10"> {{index + 1}} </div> 
+    <div v-for='(list, index) in listAmount' :key="index" class="divloop"> 
       <div class="div30"> Rp {{formatNumber(list.currentValue)}} </div> 
-      <div class="div60">
+      <div class="div70">
         <div class="subdiv" v-for='(val,index) in list.calculateValue' :key="index">
           <span> {{val[1]}}x </span> 
-          <span><b>Rp {{formatNumber(val[0])}}</b> </span> 
+          <span v-if='val[0] <= 49 && val[0] != 0'>Rp {{formatNumber(val[0])}} (No Available Fraction)  </span> 
+          <span v-else>
+            <b>Rp {{formatNumber(val[0])}}</b></span> 
         </div>
       </div>
       <div class="div5 fright cursor" @click="deletex(index)">&times;</div><br>
@@ -51,13 +51,14 @@ export default {
       } else if (isNaN(this.valueAmount)) {
         alert('Plese insert Number')
       } else if (this.valueAmount <= 49) {
+        this.listAmount = []
         this.showRes = true
         let obj = {
           currentValue: this.valueAmount,
           id: this.listAmount.length + 1
         }
         obj.calculateValue = [{
-          '0': this.valueAmount + ' (No Available Fraction)'
+          '0': this.valueAmount
         }]
         this.listAmount.push(obj)
       } else {
@@ -79,7 +80,7 @@ export default {
         let smallestAmont = this.getCalc.filter((e,i)=> this.getCalc.indexOf(e) >= i)
         if (smallestAmont[smallestAmont.length - 1] <= 49) {
           let getSmallest = {
-            '0': smallestAmont[smallestAmont.length - 1] + 'No Available Amount'
+            '0': smallestAmont[smallestAmont.length - 1]
           }
           this.listAmount.forEach(x => {
             x.calculateValue.push(getSmallest) 
