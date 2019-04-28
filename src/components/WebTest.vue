@@ -51,7 +51,7 @@ export default {
       } else if (isNaN(this.valueAmount)) {
         alert('Plese insert Number')
       } else if (this.valueAmount <= 49) {
-        this.listAmount = []
+        this.reset()
         this.showRes = true
         let obj = {
           currentValue: this.valueAmount,
@@ -62,7 +62,7 @@ export default {
         }]
         this.listAmount.push(obj)
       } else {
-        this.listAmount = []
+        this.reset()
         this.showRes = true
         this.filterone(this.fractionList, this.valueAmount)
         let filterVar = this.filterone(this.fractionList, this.valueAmount)
@@ -139,6 +139,14 @@ export default {
     },
     formatNumber (num) {
       return parseInt(num).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    },
+    reset () {
+      this.listAmount = [],
+      this.resfilterone = '',
+      this.id = '',
+      this.GlobalFilter = '',
+      this.invalidAmount = [],
+      this.getCalc = []
     }
   },
   computed: {
@@ -243,6 +251,9 @@ input[type=text]:focus{
 }
 .div60{
   width: 60%;
+}
+.div70{
+  width: 70%;
 }
 .subdiv{
   margin-bottom: 5px;
