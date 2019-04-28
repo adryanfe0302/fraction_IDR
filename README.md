@@ -1,29 +1,18 @@
-# my-project
+# 1 clone
+$ git clone https://github.com/adryanfe0302/fraction_IDR.git
 
-## Project setup
-```
-npm install
-```
+# 2 enter folder
+$ cd fraction_IDR
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# 3 install
+$ npm install
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# 4 run
+$ npm run serve
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+( App running at:
+- Local:   http://localhost:8080/ 
+- Network: http://192.168.43.60:8080/ )
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
