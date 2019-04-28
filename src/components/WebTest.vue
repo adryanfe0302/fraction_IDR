@@ -18,11 +18,11 @@
       <div class="div30"> Rp {{formatNumber(list.currentValue)}} </div> 
       <div class="div60">
         <div class="subdiv" v-for='(val,index) in list.calculateValue' :key="index">
-          <span> {{val[1]}}x </span>  
+          <span> {{val[1]}}x </span> 
           <span><b>Rp {{formatNumber(val[0])}}</b> </span> 
         </div>
       </div>
-      <div class="div5 fright cursor" @click="deletex(index + 1)">&times;</div><br>
+      <div class="div5 fright cursor" @click="deletex(index)">&times;</div><br>
     </div>
   </div>
 </div>
@@ -40,7 +40,8 @@ export default {
       id: '',
       GlobalFilter: '',
       invalidAmount: [],
-      showRes: false
+      showRes: false,
+      getCalc: []
     }
   },
   methods: {
@@ -60,6 +61,7 @@ export default {
         }]
         this.listAmount.push(obj)
       } else {
+        this.listAmount = []
         this.showRes = true
         this.filterone(this.fractionList, this.valueAmount)
         let filterVar = this.filterone(this.fractionList, this.valueAmount)
@@ -73,6 +75,16 @@ export default {
         }
         this.listAmount.push(obj)
         this.filterAmount()
+
+        let smallestAmont = this.getCalc.filter((e,i)=> this.getCalc.indexOf(e) >= i)
+        if (smallestAmont[smallestAmont.length - 1] <= 49) {
+          let getSmallest = {
+            '0': smallestAmont[smallestAmont.length - 1] + 'No Available Amount'
+          }
+          this.listAmount.forEach(x => {
+            x.calculateValue.push(getSmallest) 
+          })
+        }
       }
       this.valueAmount = ''
     },
@@ -106,35 +118,23 @@ export default {
           x.calculateValue.push(this.resfilterone)
         }
       })
-      // console.log('sa', this.calcTrans)
-      // if (this.calcTrans == undefined) {
-      //   console.log('true')
-      // } else {
-      //   console.log('false')
-      // }
-      // let getSmallest = []
-      // if (this.calcTrans == undefined) {
-      //   console.log('nothing')
-      // } else {
-      //   this.getSmallest.push(this.calcTrans)
-      // }
-      // console.log('gai', getSmallest)
+      this.getCalc.push(this.calcTrans)
       return this.resfilterone
     },
     filterone (arr,val) {
       return arr.filter(x => parseInt(val) >= parseInt(x))
     },
     deletex (e) {
-      this.listAmount.forEach(x => {
-        if (x.id == e) { 
-          this.listAmount.splice(e, 1)
-        }
-      })
-      // if (this.listAmount.length === 1) {
-      //   console.log('enter')
-      //   this.listAmount.splice(e)
-      //   this.showRes = false
-      // }
+      if (this.listAmount.length == 1) {
+        this.listAmount.splice(e, 1)
+        this.showRes = false
+      } else {
+        this.listAmount.forEach(x => {
+          if (x.id == e) {
+            this.listAmount.splice(e, 1)
+          }
+        })
+      }
     },
     formatNumber (num) {
       return parseInt(num).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -144,9 +144,6 @@ export default {
     calcTrans () {
       return this.valueAmount - this.resfilterone
     }
-    // filterVar (arr, val) {
-    //   return this.filterone(arr, val)
-    // }
   }
 }
 </script>
