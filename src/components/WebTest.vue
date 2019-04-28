@@ -59,7 +59,6 @@ export default {
           '0': this.valueAmount + ' (No Available Fraction)'
         }]
         this.listAmount.push(obj)
-        console.log('enter', this.listAmount)
       } else {
         this.showRes = true
         this.filterone(this.fractionList, this.valueAmount)
@@ -94,7 +93,6 @@ export default {
         x.calculateValue.forEach(x => {
           counts[x] = (counts[x] || 0)+1;
         })
-        console.log('count', counts)
         x.calculateValue = Object.entries(counts)
       })
     },
@@ -127,11 +125,9 @@ export default {
       return arr.filter(x => parseInt(val) >= parseInt(x))
     },
     deletex (e) {
-      console.log('e', e)
       this.listAmount.forEach(x => {
         if (x.id == e) { 
           this.listAmount.splice(e, 1)
-          console.log('enter')
         }
       })
       // if (this.listAmount.length === 1) {
@@ -260,17 +256,3 @@ input[type=text]:focus{
   background-color: whitesmoke;
 }
 </style>
-
-// let fractionList = ['100', '500', '1000', '2000', '5000','10000', '20000', '50000', '100000']
-// let curVal = 36500
-// let finalAmount = []
-// let filterone = fractionList.filter(x => parseInt(curVal) >= parseInt(x))
-// let resfilterone = filterone[filterone.length - 1]
-// finalAmount.push(resfilterone)
-
-// let calcTrans = curVal - resfilterone
-// let filtertwo = fractionList.filter(x => parseInt(calcTrans) >= parseInt(x))
-// let resfiltertwo = filtertwo[filtertwo.length - 1]
-// finalAmount.push(resfiltertwo)
-
-// console.log(finalAmount)
