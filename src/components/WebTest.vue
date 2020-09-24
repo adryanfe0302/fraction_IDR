@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  // test 01
+  // test 02
   <div class="master">
     <span for="name"><b>IDR Amount</b></span>
     <input v-model="valueAmount" type="text" placeholder="Enter Amount" name="name" required>
